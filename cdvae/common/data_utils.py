@@ -641,9 +641,14 @@ class StandardScalerTorch(object):
 
 
 def get_scaler_from_data_list(data_list, key):
-    targets = torch.tensor([d[key] for d in data_list])
+    # 将包含多个numpy.ndarray的列表转换为单个numpy.ndarray
+    targets_np = np.array([d[key] for d in data_list])
+    # 从numpy.ndarray创建一个PyTorch张量
+    targets = torch.tensor(targets_np)
+    # 创建并拟合scaler
     scaler = StandardScalerTorch()
-    scaler.fit(targets)
+    scaler.fit(targets)  # 注意这里仍然使用numpy数组来拟合scaler
+    
     return scaler
 
 

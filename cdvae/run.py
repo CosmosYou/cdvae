@@ -65,15 +65,12 @@ def run(cfg: DictConfig) -> None:
     """
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
-        print(1111111111111111111)
 
     # # Hydra run directory
     hydra_dir = Path(HydraConfig.get().run.dir)
-    print(hydra_dir,11111111111111111111111111111111)
     # # Instantiate datamodule
-    print(cfg.data.datamodule)
 
-    # hydra.utils.log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
+    hydra.utils.log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(
         cfg.data.datamodule, _recursive_=False
     )
@@ -128,30 +125,30 @@ def run(cfg: DictConfig) -> None:
         ckpt = None
           
     hydra.utils.log.info("Instantiating the Trainer")
+    callbacks: List[Callback] = build_callbacks(cfg=cfg)
     trainer = pl.Trainer(
         default_root_dir=hydra_dir,
         logger=None,
         callbacks=callbacks,
         deterministic=cfg.train.deterministic,
-        check_val_every_n_epoch=cfg.logging.val_check_interval,
-        progress_bar_refresh_rate=cfg.logging.progress_bar_refresh_rate,
-        resume_from_checkpoint=ckpt,
-        **cfg.train.pl_trainer,
+        enable_progress_bar=True,
+        **cfg.train.pl_trainer
     )
     log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
+
 
     hydra.utils.log.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
 
     hydra.utils.log.info("Starting testing!")
-    trainer.test(datamodule=datamodule)
+    trainer.test(ckpt_path='best',datamodule=datamodule)
 
     # # Logger closing to release resources/avoid multi-run conflicts
     # if wandb_logger is not None:
     #     wandb_logger.experiment.finish()
 
 
-@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+@hydra.main(version_base='1.1',config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
     run(cfg)
 
