@@ -39,6 +39,10 @@ Run the following command to install the environment:
 ```bash
 conda env create -f env.yml
 ```
+
+https://pytorch-geometric.com/whl/torch-2.2.1+cu121.html
+
+
 Activate the conda environment with `conda activate cdvae`.
 
 Install this package with `pip install -e .`.
@@ -46,13 +50,16 @@ Install this package with `pip install -e .`.
 ### Faster conda installation
 
 We've noticed that the above command to install the dependencies from `env.yml` can take very long. A faster way to install the required packages is:
+
 ```bash
 conda env create -f env_sub.yml
-conda activate cdvae
+conda activate cdvae_test
 conda install ipywidgets jupyterlab matplotlib pylint
-conda install -c conda-forge matminer=0.7.3 nglview pymatgen=2020.12.31
-# Downgrade to fix a known issue with pytorch
-python3 -m pip install setuptools==59.5.0
+conda install -c conda-forge matminer=0.9.2 nglview pymatgen==2023.8.10
+pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt -f https://pytorch-geometric.com/whl/torch-2.2.1+cu121.html
+pip install -r requirements2.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+python -m pip install setuptools==59.5.0
 pip install -e .
 ```
 
