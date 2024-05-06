@@ -1,0 +1,10 @@
+[2024-05-06 10:12:04,073][hydra.utils][INFO] - Instantiating <cdvae.pl_data.datamodule.CrystDataModule>
+[2024-05-06 10:13:57,412][hydra.utils][INFO] - Instantiating <cdvae.pl_modules.model.CDVAE>
+[2024-05-06 10:14:30,223][hydra.utils][INFO] - Passing scaler from datamodule to model <StandardScalerTorch(means: 1.5177257061004639, stds: 0.6597051024436951)>
+[2024-05-06 10:14:30,229][hydra.utils][INFO] - Adding callback <LearningRateMonitor>
+[2024-05-06 10:14:30,230][hydra.utils][INFO] - Adding callback <EarlyStopping>
+[2024-05-06 10:14:30,233][hydra.utils][INFO] - Adding callback <ModelCheckpoint>
+[2024-05-06 10:14:30,268][hydra.utils][INFO] - Instantiating the Trainer
+[2024-05-06 10:14:30,269][hydra.utils][INFO] - Adding callback <LearningRateMonitor>
+[2024-05-06 10:14:30,270][hydra.utils][INFO] - Adding callback <EarlyStopping>
+[2024-05-06 10:14:30,273][hydra.utils][INFO] - Adding callback <ModelCheckpoint>

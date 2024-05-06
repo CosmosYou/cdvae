@@ -6,15 +6,34 @@ random_seed: 42
 
 pl_trainer:
   fast_dev_run: False # Enable this for debug purposes
-  gpus: 1
   precision: 32
   # max_steps: 10000
   max_epochs: ${data.train_max_epochs}
+  check_val_every_n_epoch: 1
   accumulate_grad_batches: 1
   num_sanity_val_steps: 2
   gradient_clip_val: 0.5
-  gradient_clip_algorithm: value
-  profiler: simple
+  gradient_clip_algorithm: 'value'
+  profiler: 'simple'
+
+
+# check_val_every_n_epoch: 这个参数指定了每个epoch结束后在验证集上评估模型的频率。这里设置为1，意味着每个epoch都会进行验证。
+
+# enable_progress_bar: 如果设置为 True，则在训练过程中显示进度条。
+
+# profiler: 用于性能分析的工具。这里设置为 'simple'，意味着使用简单的分析器来跟踪训练过程中的时间消耗。
+
+# precision: 指定训练时使用的数据精度。这里设置为32，意味着使用32位浮点数进行计算。
+
+# max_epochs: 训练的最大epoch数。这里设置为10000，意味着训练最多进行10000个epoch。
+
+# accumulate_grad_batches: 这个参数指定了在执行一次反向传播之前要累积多少个batch的梯度。这里设置为1，意味着每个batch的梯度都会立即进行反向传播。
+
+# num_sanity_val_steps: 在训练开始前，用于检查验证集的步骤数。这里设置为2，意味着在训练开始前会检查2个验证步骤是否正常。
+
+# gradient_clip_val: 梯度裁剪的阈值。如果梯度的范数超过了这个值，梯度会被缩放以不超过这个阈值。这里设置为0.5。
+
+# gradient_clip_algorithm: 梯度裁剪使用的算法。这里设置为 'value'，意味着使用值裁剪，即直接缩放梯度值。
 
 monitor_metric: 'val_loss'
 monitor_metric_mode: 'min'
